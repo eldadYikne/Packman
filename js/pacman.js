@@ -3,6 +3,7 @@
 const PACMAN = '😷';
 var gPacman;
 var isPowerFull = false
+var collectedFood=0
 function createPacman(board) {
     gPacman = {
         location: {
@@ -28,7 +29,10 @@ function movePacman(ev) {
     // console.log('NEXT CELL', nextCell)
 
     if (nextCell === WALL) return
-    if (nextCell === FOOD) updateScore(1)
+    if (nextCell === FOOD){
+        updateScore(1)
+        collectedFood++
+    } 
     if (nextCell === CHERRY) updateScore(10)
     if (nextCell === POWER_FOOD) {
         if (isPowerFull) return
@@ -44,17 +48,13 @@ function movePacman(ev) {
         return
     } else if (nextCell === GHOST) {
         eatGhost(nextLocation)
+        updateScore(10)
 
     }
     var emptyCell = getEmptyCells()
-    var cherryInt = setInterval(() => {
-        getCgerry()
-    }, 2000)
-  
-    
-    if (emptyCell.length === foodCounter) {
+    console.log(collectedFood,foodCounter);
+    if (collectedFood=== foodCounter-1) {
         isVictory = true
-
         gameOver()
     }
     // update the model
@@ -96,15 +96,6 @@ function eatGhost(nextLocation) {
 
         }
     }
-}
-function getCgerry() {
-    var emptyCell = getEmptyCells()
-    console.log(emptyCell);
-    if (emptyCell === 0) return
-    var cherryIdx = drawNum(emptyCell)
-    console.log(cherryIdx);
-    gBoard[cherryIdx.i][cherryIdx.j] = CHERRY
-    renderCell(cherryIdx, CHERRY)
 }
 
 function getNextLocation(eventKeyboard) {

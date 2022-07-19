@@ -4,8 +4,8 @@ const WALL = '<img style= width:25px src="img/wall.png" />'
 const FOOD = '.'
 const EMPTY = ''
 const POWER_FOOD = '<img style= width:25px src="img/chiken.png" />'
-const CHERRY = '<img style= width:25px src="img/cherry.png" />'
-
+const CHERRY = '🍒'
+var cherryInt
 
 var foodCounter = 0
 var gGame = {
@@ -15,14 +15,18 @@ var gGame = {
 var gBoard
 var isVictory = false
 function init() {
-    console.log('hello')
-
+    
     gBoard = buildBoard()
     createPacman(gBoard)
     createGhosts(gBoard)
-
+    isVictory = false
     printMat(gBoard, '.board-container')
     gGame.isOn = true
+
+     cherryInt = setInterval(() => {
+        getCgerry()
+    }, 5000)
+
 
 }
 
@@ -86,7 +90,10 @@ function gameOver() {
         elRstBtn.innerHTML = strHTML
         elRstBtn.style.display = 'block'
     }
+    gGhosts=[]
     foodCounter = 0
+    collectedFood=0
+    clearInterval(cherryInt)
 }
 
 function restGame() {
@@ -102,22 +109,32 @@ function getEmptyCells() {
     for (let i = 0; i < gBoard.length; i++) {
         for (let j = 0; j < gBoard[i].length; j++) {
 
-            if (gBoard[i][j] === ' ' && gBoard[i][j] !== WALL) {
-                if (gBoard[i][j] !== PACMAN && gBoard[i][j] !== GHOST)
-                    emptyCells.push({ i, j })
+            if (gBoard[i][j] === EMPTY) {
+                emptyCells.push({ i, j })
             }
         }
     }
+    if (emptyCells.length === 0) return 0
     return emptyCells
 }
 
+function getCgerry() {
+
+    var emptyCells = getEmptyCells()
+    if (emptyCells.length===0) return
+    var cherryIdx = drawNum(emptyCells)
+    console.log(cherryIdx);
+    gBoard[cherryIdx[0].i][cherryIdx[0].j] = CHERRY
+    console.log( gBoard[cherryIdx[0].i][cherryIdx[0].j]);
+    renderCell(cherryIdx[0], CHERRY)
+}
 
 
 function drawNum(nums) {
-    // console.log(`gNums.length:`, gNums.length)
     var num = getRandomInt(0, nums.length)
     var removedNum = nums.splice(num, 1)
     // console.log(`gNums:`, gNums)
+    console.log(removedNum)
     return removedNum
 }
 function getRandomInt(min, max) {

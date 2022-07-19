@@ -1,0 +1,37 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.gameOver {
+  margin-left: 90px;
+  width: 250px;
+  height: 250px;
+  text-align: center;
+  font-size: 4em;
+  float: right;
+  position: absolute;
+  background-color: rgb(130, 232, 217);
+  color: black;
+  display: none;
+  
+}
+ 
+button{
+  border-radius: 10px;
+}
+p{
+  display: none;
+}
+/* .formLine {
+  margin:10px;
+  padding:10px;
+  background-color: cornflowerblue;
+} */
